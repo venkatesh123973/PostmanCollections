@@ -1,0 +1,236 @@
+{
+	"info": {
+		"_postman_id": "4df9432d-b4ff-4908-965f-856217b1c06c",
+		"name": "JIRARESTAPIwithCollectionVariable",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "35149030"
+	},
+	"item": [
+		{
+			"name": "GETProjectID",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"var jsonobject=pm.response.json()\r",
+							"console.log(jsonobject);\r",
+							"\r",
+							"var projectID=jsonobject.id\r",
+							"console.log(projectID)\r",
+							"\r",
+							"pm.environment.set(\"ID\", projectID);"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseurl}}/rest/api/3/project/KAN",
+					"host": [
+						"{{baseurl}}"
+					],
+					"path": [
+						"rest",
+						"api",
+						"3",
+						"project",
+						"KAN"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GETProject",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://venkateshkannanofficial.atlassian.net/rest/api/3/search",
+					"protocol": "https",
+					"host": [
+						"venkateshkannanofficial",
+						"atlassian",
+						"net"
+					],
+					"path": [
+						"rest",
+						"api",
+						"3",
+						"search"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POSTIssue",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});\r",
+							"\r",
+							"var jsonobject=pm.response.json()\r",
+							"console.log(jsonobject);\r",
+							"\r",
+							"var proID=jsonobject.id\r",
+							"console.log(proID)\r",
+							"\r",
+							"pm.environment.set(\"PRID\",proID);"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"fields\": {\r\n        \"project\": {\r\n            \"id\": \"{{ID}}\"\r\n        },\r\n        \"summary\": \"Issue Details\",\r\n        \"issuetype\": {\r\n            \"id\": \"10001\"\r\n        }\r\n    }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://venkateshkannanofficial.atlassian.net/rest/api/3/issue",
+					"protocol": "https",
+					"host": [
+						"venkateshkannanofficial",
+						"atlassian",
+						"net"
+					],
+					"path": [
+						"rest",
+						"api",
+						"3",
+						"issue"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DeleteIssue",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 204\", function () {\r",
+							"    pm.response.to.have.status(204);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "https://venkateshkannanofficial.atlassian.net/rest/api/3/issue/{{PRID}}",
+					"protocol": "https",
+					"host": [
+						"venkateshkannanofficial",
+						"atlassian",
+						"net"
+					],
+					"path": [
+						"rest",
+						"api",
+						"3",
+						"issue",
+						"{{PRID}}"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "basic",
+		"basic": [
+			{
+				"key": "password",
+				"value": "ATATT3xFfGF0H4p4Y22HucjPUvtcw6L8cXlVXSSg2OkzAaWKcwgcg8H89ffmU8wsRsVMY3hjPOWD0ZYwcByV-hXsGzBPcQi7zFUUqb1nnjyFMQDMosZGgZ1pNK4a8znkwg6DHsq9mV_pqelTTmO68s6O_Fmuv1Ywm8Pobss8AZXpro-dWf08xPU=E275A1AD",
+				"type": "string"
+			},
+			{
+				"key": "username",
+				"value": "venkateshkannanofficial@gmail.com",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseurl",
+			"value": "https://venkateshkannanofficial.atlassian.net",
+			"type": "string"
+		},
+		{
+			"key": "ID",
+			"value": "1",
+			"type": "string"
+		},
+		{
+			"key": "PRID",
+			"value": "1",
+			"type": "string"
+		}
+	]
+}
