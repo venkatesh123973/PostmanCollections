@@ -1,0 +1,279 @@
+{
+	"info": {
+		"_postman_id": "b1353cc8-7afa-43c2-a7ab-d910fef3d8e6",
+		"name": "PetStoreAPIs",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "35149030"
+	},
+	"item": [
+		{
+			"name": "CreateUser",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"var jsonobject=pm.response.json()\r",
+							"console.log(jsonobject);\r",
+							"\r",
+							"var ID=jsonobject.code\r",
+							"console.log(ID);\r",
+							"\r",
+							"pm.expect(pm.response.json().code).to.be.a('number');\r",
+							"\r",
+							"pm.expect(pm.response.json().message).to.be.a('String');\r",
+							"\r",
+							"pm.expect(pm.response.json().type).to.be.a('String');\r",
+							"\r",
+							"pm.environment.set(\"PetID\", ID);\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"var uniqueId = new Date().getTime() + Math.floor(Math.random() * 10);\r",
+							"var uniqueEmail = \"Venky\" + uniqueId + \"@gmail.com\"\r",
+							"pm.environment.set(\"UniqueEmail\",uniqueEmail)\r",
+							"\r",
+							"function generateUniqueName() {\r",
+							"    const randomSuffix = Math.random().toString(6).substring(1);\r",
+							"    return `Mukesh_${randomSuffix}`;\r",
+							"}\r",
+							"\r",
+							"function generatePhoneNumber() {\r",
+							"    const areaCode = Math.floor(Math.random() * 900) + 100; // Random 3-digit area code\r",
+							"    const firstPart = Math.floor(Math.random() * 900) + 100; // Random 3-digit first part\r",
+							"    const secondPart = Math.floor(Math.random() * 9000) + 1000; // Random 4-digit second part\r",
+							"    return `(${areaCode}) ${firstPart}-${secondPart}`;\r",
+							"}\r",
+							"\r",
+							"// Generate a random phone number\r",
+							"const phoneNumber = generatePhoneNumber();\r",
+							"\r",
+							"// Set the generated phone number as an environment variable for later use\r",
+							"pm.environment.set('phoneNumber', phoneNumber);\r",
+							"\r",
+							"// Generate a unique name\r",
+							"const username = generateUniqueName();\r",
+							"const lastName = generateUniqueName();\r",
+							"const firstName = generateUniqueName();\r",
+							"const password = generateUniqueName();\r",
+							"\r",
+							"\r",
+							"\r",
+							"// Set the generated name as an environment variable for later use\r",
+							"pm.environment.set('UserName', username);\r",
+							"pm.environment.set('LastName', lastName);\r",
+							"pm.environment.set('FirstName', firstName);\r",
+							"pm.environment.set('Password', password);\r",
+							"pm.environment.set(\"UniqueId\",uniqueId)\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\": {{UniqueId}},\r\n    \"username\": \"{{UserName}}\",\r\n    \"firstName\": \"{{FirstName}}\",\r\n    \"lastName\": \"{{LastName}}\",\r\n    \"email\": \"{{UniqueEmail}}\",\r\n    \"password\": \"{{Password}}\",\r\n    \"phone\": \"78976579\",\r\n    \"userStatus\": 1\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://petstore.swagger.io/v2/user",
+					"protocol": "https",
+					"host": [
+						"petstore",
+						"swagger",
+						"io"
+					],
+					"path": [
+						"v2",
+						"user"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GETPetDetails",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.expect(pm.response.json().id).to.be.a('number');\r",
+							"\r",
+							"pm.expect(pm.response.json().username).to.be.a('String');\r",
+							"\r",
+							"pm.expect(pm.response.json().firstName).to.be.a('String');\r",
+							"pm.expect(pm.response.json().lastName).to.be.a('String');\r",
+							"pm.expect(pm.response.json().email).to.be.a('String');\r",
+							"pm.expect(pm.response.json().password).to.be.a('String');\r",
+							"pm.expect(pm.response.json().phone).to.be.a('String');\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "https://petstore.swagger.io/v2/user/{{UserName}}",
+					"protocol": "https",
+					"host": [
+						"petstore",
+						"swagger",
+						"io"
+					],
+					"path": [
+						"v2",
+						"user",
+						"{{UserName}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PUTPetDetails",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"var uniqueId = new Date().getTime() + Math.floor(Math.random() * 100);\r",
+							"var uniqueEmail = \"Venky\" + uniqueId + \"@gmail.com\"\r",
+							"pm.environment.set(\"PutUniqueEmail\",uniqueEmail)"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.expect(pm.response.json().code).to.be.a('number');\r",
+							"\r",
+							"pm.expect(pm.response.json().message).to.be.a('String');\r",
+							"\r",
+							"pm.expect(pm.response.json().type).to.be.a('String');"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\": {{UniqueId}},\r\n    \"username\": \"{{UserName}}\",\r\n    \"firstName\": \"{{FirstName}}\",\r\n    \"lastName\": \"{{LastName}}\",\r\n    \"email\": \"{{PutUniqueEmail}}\",\r\n    \"password\": \"{{Password}}\",\r\n    \"phone\": 7788994455,\r\n    \"userStatus\": 1\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://petstore.swagger.io/v2/user/{{UserName}}",
+					"protocol": "https",
+					"host": [
+						"petstore",
+						"swagger",
+						"io"
+					],
+					"path": [
+						"v2",
+						"user",
+						"{{UserName}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DeleteAPI",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "https://petstore.swagger.io/v2/user/{{UserName}}",
+					"protocol": "https",
+					"host": [
+						"petstore",
+						"swagger",
+						"io"
+					],
+					"path": [
+						"v2",
+						"user",
+						"{{UserName}}"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
